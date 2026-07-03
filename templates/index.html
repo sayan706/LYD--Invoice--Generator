@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Invoice - Live Your Dreams Travels</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        .download-btn-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #5b5494, #363259);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(91, 84, 148, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(91, 84, 148, 0.6);
+        }
+        @media (max-width: 768px) {
+            .download-btn-container {
+                justify-content: center;
+            }
+            .download-btn {
+                width: 100%;
+                padding: 16px 24px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="download-btn-container">
+        <button class="download-btn" onclick="generatePDF()">
+            <i class="fa-solid fa-file-pdf"></i> Download PDF
+        </button>
+    </div>
+
+    <div class="invoice-wrapper" id="invoice">
+        <div class="invoice-container">
+
+            <!-- Header -->
+            <header class="invoice-header">
+                <div class="header-left">
+                    <div class="brand">
+                        <img src="{{ url_for('static', filename='Images/stamp-removebg-preview.png') }}" alt="Live Your Dreams Travels Logo" class="logo">
+                        <div class="brand-text">
+                            <h1>LIVE YOUR DREAMS</h1>
+                            <p>TRAVELS</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <h2 class="invoice-title">INVOICE</h2>
+                    <p class="invoice-date">Date: <strong>{{ invoice_date }}</strong></p>
+                    <p class="invoice-no">Invoice No: <strong>{{ invoice_no }}</strong></p>
+                    <p class="invoice-time">Time: <strong>{{ invoice_time }}</strong></p>
+                </div>
+            </header>
+
+            <!-- Addresses -->
+            <section class="invoice-details">
+                <div class="company-details">
+                    <h3>Office Address</h3>
+                    <p>5/11 Nilgunj Road - Kolkata</p>
+                    <p>Email: liveyourdreamtravels01@gmail.com</p>
+                    <p class="phone">(+91) 6290068349 / 7044037209</p>
+                    <p class="phone">7044968349 (WhatsApp)</p>
+                </div>
+                <div class="client-details">
+                    <h3>Bill To:</h3>
+                    <p class="client-name">{{ client_name }}</p>
+                    <p>Pick Up: {{ pickup_date }}</p>
+                    <p>Email: {{ client_email }}</p>
+                    <p class="phone">Mobile: {{ client_phone }}</p>
+                </div>
+            </section>
+
+            <!-- Table -->
+            <section class="invoice-items">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="text-left">Details</th>
+                            <th class="text-center">Perhead Cost</th>
+                            <th class="text-center">Pax</th>
+                            <th class="text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-left item-desc">
+                                <span class="item-name">{{ item_desc }}</span>
+                            </td>
+                            <td class="text-center">{{ per_head }}</td>
+                            <td class="text-center">{{ pax }}</td>
+                            <td class="text-right font-bold">{{ total_amount }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Tour Details -->
+            <section class="tour-details">
+                <div class="tour-plan">
+                    <h3>Tour Plan</h3>
+                    <ul>
+                        {% for line in tour_plan_lines %}
+                        <li>{{ line }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="tour-inclusions">
+                    <div class="included">
+                        <h3>Including</h3>
+                        <ul>
+                            {% for item in including_lines %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="excluded">
+                        <h3>Excluding</h3>
+                        <ul>
+                            {% for item in excluding_lines %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <p class="tour-note"><strong>Note:</strong> {{ tour_note }}</p>
+            </section>
+
+            <!-- Summary & Notes -->
+            <section class="invoice-summary">
+                <div class="summary-left">
+                    <div class="note-box">
+                        <h4>Invoice Amount in Words:</h4>
+                        <p>{{ amount_words }}</p>
+                    </div>
+                </div>
+                <div class="summary-right">
+                    <div class="summary-row">
+                        <span>Total Amount :</span>
+                        <span>{{ total_amount }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Advance :</span>
+                        <span>{{ advance }}</span>
+                    </div>
+                    <div class="summary-row total-due">
+                        <span>TOTAL DUE :</span>
+                        <span>{{ total_due }}</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer / Policy / Signatures -->
+            <footer class="invoice-footer">
+                <h3 class="footer-greeting">THANKS FOR DOING BUSINESS WITH US.</h3>
+
+                <div class="footer-columns">
+                    <div class="footer-col policy-col">
+                        <h4>Cancellation Policy</h4>
+                        <ul>
+                            {% for policy in cancellation_lines %}
+                            <li>{{ policy }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="footer-col auth-col">
+                        <div class="auth-images">
+                            <img src="{{ url_for('static', filename='Images/sign.jpeg') }}" alt="Signature" class="signature">
+                            <img src="{{ url_for('static', filename='Images/lyd_logo-removebg-preview.png') }}" alt="Stamp" class="stamp">
+                        </div>
+                        <p>Authorized Signature & Stamp</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+    
+    <script>
+        function generatePDF() {
+            const element = document.getElementById('invoice');
+            
+            // Temporarily disable animation to prevent html2canvas from capturing opacity: 0
+            element.style.animation = 'none';
+            
+            // Adjust options for better quality
+            const opt = {
+                margin:       [0, 0, 0, 0], // Top, Right, Bottom, Left margins
+                filename:     '{{ invoice_no }}_{{ client_name }}.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Save the PDF
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restore animation after saving
+                element.style.animation = '';
+            });
+        }
+    </script>
+</body>
+
+</html>

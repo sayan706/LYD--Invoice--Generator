@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator - Live Your Dreams Travels</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/invoice-form.css') }}">
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="logo-area">
+                <img src="{{ url_for('static', filename='Images/stamp-removebg-preview.png') }}" alt="Logo" class="logo" onerror="this.src='https://via.placeholder.com/60/ffffff/5b5494?text=LYD'">
+                <div class="brand">
+                    <h1>Live Your Dreams</h1>
+                    <p>Travels Invoice Generator</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button type="button" class="btn btn-outline" id="resetBtn">
+                    <i class="fa-solid fa-rotate-right"></i> Reset Form
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Form -->
+        <form id="invoiceForm" class="invoice-form" action="/generate" method="POST">
+            
+            <!-- Client Details Section -->
+            <section class="form-section glass-panel">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-user-astronaut"></i> Client Details</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <input type="text" id="invoiceNo" name="invoiceNo" required>
+                        <label for="invoiceNo">Invoice Number</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="clientName" name="clientName" required>
+                        <label for="clientName">Client Name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="date" id="pickupDate" name="pickupDate" required>
+                        <label for="pickupDate" class="active">Pick Up Date</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="clientEmail" name="clientEmail" required>
+                        <label for="clientEmail">Email Address</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="clientPhone" name="clientPhone" required>
+                        <label for="clientPhone">Phone Number(s)</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Billing Items Section -->
+            <section class="form-section glass-panel">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-file-invoice-dollar"></i> Billing & Costing</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="items-table">
+                        <thead>
+                            <tr>
+                                <th>Description / Package</th>
+                                <th width="20%">Per Head (₹)</th>
+                                <th width="15%">Pax</th>
+                                <th width="25%">Total (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemsBody">
+                            <tr>
+                                <td>
+                                    <textarea rows="2" class="table-input" id="itemDesc" name="itemDesc" required>3 Night 4 days Sittong + Dawaipani + Lolegaon</textarea>
+                                </td>
+                                <td>
+                                    <div class="input-with-icon">
+                                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                                        <input type="number" class="table-input calc-input text-right" id="perHead" name="perHead" value="7079" required>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="table-input calc-input text-center" id="pax" name="pax" value="19" required>
+                                </td>
+                                <td>
+                                    <div class="input-with-icon readonly-wrapper">
+                                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                                        <input type="text" class="table-input text-right readonly" id="itemTotal" name="itemTotal" value="134501" readonly>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="amount-in-words">
+                        <div class="input-group">
+                            <input type="text" id="amountWords" name="amountWords" value="One Lakh Thirty Four Thousand Five Hundred One Rupees Only" required>
+                            <label for="amountWords" class="active">Amount in Words</label>
+                        </div>
+                    </div>
+                    
+                    <div class="totals-area">
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span id="subTotalDisplay">₹ 134,501</span>
+                        </div>
+                        <div class="total-row advance">
+                            <span>Advance Paid (₹):</span>
+                            <div class="input-with-icon advance-input">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <input type="number" class="table-input calc-input text-right" id="advanceAmount" name="advanceAmount" value="40000">
+                            </div>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>Total Due:</span>
+                            <span id="totalDueDisplay">₹ 94,501</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Prefilled Sections (Tour Plan & Cancellation) -->
+            <div class="two-col-layout">
+                <section class="form-section glass-panel">
+                    <div class="section-header">
+                        <h2><i class="fa-solid fa-map-location-dot"></i> Tour Plan (Prefilled)</h2>
+                    </div>
+                    <textarea class="rich-textarea" id="tourPlan" name="tourPlan" rows="10">1st Day: Njp to Shittong via Chuchedunga, ahaldara & Namthing pokhri. Night stay at Sittong.
+
+2nd Day: Shittong to Dawaipani via Jogighat bridge, mongpoo rabindra bhawan, tree house, 6 sence view point, takdah orchid garden, lamahatta eco park, gumbadara view point. Night Stay At Dawaipani.
+
+3rd Day: Dawaipani to Lolegaon via peshok tea garden, lovers neet point, lolegaon eco park, lava monestrey, i love lava, i love rishap, changey waterfalls etc. Night Stay At Lolegaon.
+
+4th Day: After Breakfast Drop To lolegaon With Sweet Memories via kali jhora dam, Shovek kali bari, coronation bridge.</textarea>
+                </section>
+
+                <section class="form-section glass-panel">
+                    <div class="section-header">
+                        <h2><i class="fa-solid fa-shield-halved"></i> Cancellation Policy (Prefilled)</h2>
+                    </div>
+                    <textarea class="rich-textarea" id="cancellationPolicy" name="cancellationPolicy" rows="10">50% Refund If Cancelled 30 Days Prior of Advance.
+
+20% Refund If Cancelled 29-15 Days Prior of Advance.
+
+10% Refund If Cancelled 14-8 Days Prior of Advance.
+
+No Refund If Journey Date Is In Next 7 Days Or No Show.</textarea>
+                </section>
+            </div>
+
+            <!-- Inclusions & Exclusions -->
+            <div class="two-col-layout">
+                <section class="form-section glass-panel">
+                    <div class="section-header">
+                        <h2><i class="fa-solid fa-circle-check"></i> Including (Prefilled)</h2>
+                    </div>
+                    <textarea class="rich-textarea" id="tourIncluding" name="tourIncluding" rows="7">Njp To Njp Personal Cab Bolero Or Sumo (3 Cabs)
+Day 1 Lunch To Last Day Breakfast
+All Sideseeing As Per Itenary.
+8 Rooms (5 Or 6 View Room, 3 Or 4 Non View)</textarea>
+                </section>
+
+                <section class="form-section glass-panel">
+                    <div class="section-header">
+                        <h2><i class="fa-solid fa-circle-xmark"></i> Excluding (Prefilled)</h2>
+                    </div>
+                    <textarea class="rich-textarea" id="tourExcluding" name="tourExcluding" rows="7">Personal Expences
+Flight, Train, Bus Tickets
+Any Kind Of Activites
+Parking Charges
+Entry Tickets
+As Not Mentioned Above.</textarea>
+                </section>
+            </div>
+
+            <!-- Tour Note -->
+            <section class="form-section glass-panel">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-note-sticky"></i> Tour Note (Prefilled)</h2>
+                </div>
+                <textarea class="rich-textarea" id="tourNote" name="tourNote" rows="2">IF Road closed Due to natural Condition or snow The cab Charges Cost Extra.</textarea>
+            </section>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-large pulse-animation">
+                    <i class="fa-solid fa-paper-plane"></i> Generate & Submit Invoice
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h2>Success!</h2>
+            <p>The invoice for <strong id="modalClientName"></strong> has been prepared perfectly.</p>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="closeModal">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logic Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const perHeadInput = document.getElementById('perHead');
+            const paxInput = document.getElementById('pax');
+            const itemTotalInput = document.getElementById('itemTotal');
+            const advanceInput = document.getElementById('advanceAmount');
+            const subTotalDisplay = document.getElementById('subTotalDisplay');
+            const totalDueDisplay = document.getElementById('totalDueDisplay');
+            const form = document.getElementById('invoiceForm');
+            const modal = document.getElementById('successModal');
+            const closeModalBtn = document.getElementById('closeModal');
+            const resetBtn = document.getElementById('resetBtn');
+
+            // Formatter for currency
+            const formatCurrency = (num) => {
+                return new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                    maximumFractionDigits: 0
+                }).format(num);
+            };
+
+            // Number to Words Converter (Indian Numbering System)
+            const numberToWords = (num) => {
+                if (num === 0) return 'Zero Rupees Only';
+                const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+                const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+                
+                if ((num = num.toString()).length > 9) return 'Amount too large';
+                const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+                if (!n) return '';
+                
+                let str = '';
+                str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+                str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+                str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+                str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+                str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+                return str.trim() ? str.trim() + ' Rupees Only' : '';
+            };
+
+            // Dynamic calculation logic
+            const calculateTotals = () => {
+                const perHead = parseFloat(perHeadInput.value) || 0;
+                const pax = parseFloat(paxInput.value) || 0;
+                const total = Math.round(perHead * pax);
+                
+                itemTotalInput.value = total;
+                subTotalDisplay.textContent = formatCurrency(total);
+                
+                const amountWordsInput = document.getElementById('amountWords');
+                amountWordsInput.value = numberToWords(total);
+                // Ensure floating label stays active when set dynamically
+                if (amountWordsInput.value.trim() !== '') {
+                    amountWordsInput.nextElementSibling.classList.add('active');
+                }
+                
+                const advance = parseFloat(advanceInput.value) || 0;
+                const due = total - advance;
+                
+                totalDueDisplay.textContent = formatCurrency(due);
+            };
+
+            // Attach listeners to calculation inputs
+            const calcInputs = document.querySelectorAll('.calc-input');
+            calcInputs.forEach(input => {
+                input.addEventListener('input', calculateTotals);
+            });
+
+            // Floating labels logic
+            const formInputs = document.querySelectorAll('.input-group input, .input-group textarea');
+            formInputs.forEach(input => {
+                // Initialize active states based on existing values
+                if(input.value.trim() !== '') {
+                    input.nextElementSibling.classList.add('active');
+                }
+                
+                input.addEventListener('focus', () => {
+                    input.nextElementSibling.classList.add('active');
+                });
+                
+                input.addEventListener('blur', () => {
+                    if (input.value.trim() === '' && input.type !== 'date') {
+                        input.nextElementSibling.classList.remove('active');
+                    }
+                });
+            });
+
+            // Form submission is now handled by standard HTML POST request.
+            // We just let the form submit normally.
+            
+            // closeModalBtn.addEventListener('click', () => {
+            //     modal.classList.remove('active');
+            // });
+
+            // Reset functionality
+            resetBtn.addEventListener('click', () => {
+                if(confirm('Are you sure you want to reset all form data?')) {
+                    form.reset();
+                    calculateTotals();
+                    formInputs.forEach(input => {
+                        if (input.value.trim() === '' && input.type !== 'date') {
+                            input.nextElementSibling.classList.remove('active');
+                        }
+                    });
+                }
+            });
+
+            // Run initial calculation on load
+            calculateTotals();
+        });
+    </script>
+</body>
+</html>
