@@ -59,7 +59,10 @@
     </div>
 
     <div class="invoice-wrapper" id="invoice">
-        <div class="invoice-container">
+        <!-- Page 1 -->
+        <div class="invoice-page">
+            <!-- Watermark -->
+            <div class="watermark">LIVE YOUR DREAMS<br>TRAVELS</div>
 
             <!-- Header -->
             <header class="invoice-header">
@@ -122,6 +125,38 @@
                 </table>
             </section>
 
+            <!-- Summary & Notes -->
+            <section class="invoice-summary">
+                <div class="summary-left">
+                    <div class="note-box">
+                        <h4>Invoice Amount in Words:</h4>
+                        <p>{{ amount_words }}</p>
+                    </div>
+                </div>
+                <div class="summary-right">
+                    <div class="summary-row">
+                        <span>Total Amount :</span>
+                        <span>{{ total_amount }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Advance :</span>
+                        <span>{{ advance }}</span>
+                    </div>
+                    <div class="summary-row total-due">
+                        <span>TOTAL DUE :</span>
+                        <span>{{ total_due }}</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="html2pdf__page-break"></div>
+
+        <!-- Page 2 -->
+        <div class="invoice-page">
+            <!-- Watermark -->
+            <div class="watermark">LIVE YOUR DREAMS<br>TRAVELS</div>
+
             <!-- Tour Details -->
             <section class="tour-details">
                 <div class="tour-plan">
@@ -154,30 +189,6 @@
                 <p class="tour-note"><strong>Note:</strong> {{ tour_note }}</p>
             </section>
 
-            <!-- Summary & Notes -->
-            <section class="invoice-summary">
-                <div class="summary-left">
-                    <div class="note-box">
-                        <h4>Invoice Amount in Words:</h4>
-                        <p>{{ amount_words }}</p>
-                    </div>
-                </div>
-                <div class="summary-right">
-                    <div class="summary-row">
-                        <span>Total Amount :</span>
-                        <span>{{ total_amount }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Advance :</span>
-                        <span>{{ advance }}</span>
-                    </div>
-                    <div class="summary-row total-due">
-                        <span>TOTAL DUE :</span>
-                        <span>{{ total_due }}</span>
-                    </div>
-                </div>
-            </section>
-
             <!-- Footer / Policy / Signatures -->
             <footer class="invoice-footer">
                 <h3 class="footer-greeting">THANKS FOR DOING BUSINESS WITH US.</h3>
@@ -202,6 +213,67 @@
                 </div>
             </footer>
 
+        </div>
+        
+        <div class="html2pdf__page-break"></div>
+
+        <!-- Thank You Page -->
+        <div class="thank-you-page">
+            <!-- Watermark -->
+            <div class="watermark">LIVE YOUR DREAMS<br>TRAVELS</div>
+            
+            <div class="thank-you-content">
+                <div class="thank-you-header">
+                    <img src="{{ url_for('static', filename='Images/stamp-removebg-preview.png') }}" alt="Logo" class="ty-logo">
+                    <h2>LIVE YOUR DREAM</h2>
+                    <p>T R A V E L S</p>
+                    <span class="ty-tagline">Dream. Explore. Discover.</span>
+                </div>
+                
+                <h1 class="ty-title">Thank You! <i class="fa-regular fa-heart"></i></h1>
+                
+                <p class="ty-msg">We would like to extend our heartfelt thanks to all our wonderful clients, partners, and well-wishers for your trust, support, and belief in us.</p>
+                
+                <p class="ty-msg">Your journey is our inspiration. Every smile, every memory, and every destination achieved with you motivates us to keep delivering the best travel experiences.</p>
+                
+                <div class="ty-features">
+                    <div class="ty-feature">
+                        <i class="fa-solid fa-globe"></i>
+                        <span>CUSTOMIZED<br>HOLIDAYS</span>
+                    </div>
+                    <div class="ty-feature">
+                        <i class="fa-solid fa-suitcase-rolling"></i>
+                        <span>HASSLE-FREE<br>TRAVEL</span>
+                    </div>
+                    <div class="ty-feature">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>TRUST &<br>RELIABILITY</span>
+                    </div>
+                    <div class="ty-feature">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>DEDICATED<br>SUPPORT</span>
+                    </div>
+                </div>
+                
+                <p class="ty-closing-msg"><i>We look forward to being a part of many more of your beautiful journeys.</i></p>
+                <p class="ty-call-to-action">LET'S KEEP EXPLORING THE WORLD TOGETHER!</p>
+            </div>
+
+            <div class="ty-footer-section">
+                <div class="ty-dome">
+                    <p>With Gratitude,</p>
+                    <h2 class="ty-signature-text">Gourab Dey</h2>
+                    <p class="ty-owner">OWNER</p>
+                    <h3>LIVE YOUR DREAM TRAVELS</h3>
+                </div>
+                <div class="ty-bottom-bar">
+                    <span><i class="fa-solid fa-phone"></i> Let's Plan Your Next Dream Journey!</span>
+                    <span>|</span>
+                    <span><i class="fa-solid fa-location-dot"></i> Your Dream. Our Commitment.</span>
+                    <span>|</span>
+                    <span><i class="fa-solid fa-globe"></i></span>
+                </div>
+            </div>
         </div>
     </div>
     
