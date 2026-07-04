@@ -534,177 +534,120 @@ td {
 
 /* Thank You Page */
 .thank-you-page {
-    background: linear-gradient(135deg, #f8fafd 0%, #e0eaf5 100%);
-    min-height: 296mm;
     width: 100%;
+    aspect-ratio: 210 / 297; /* Exact A4 aspect ratio */
     position: relative;
-    padding: 30px 40px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-    border: 4px solid #c5a86a;
+    padding: 0;
+    margin: 0;
+    border: none;
     box-sizing: border-box;
     overflow: hidden;
+    background-image: url('../images/thank_you_bg.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-color: white;
 }
 
-.thank-you-content {
-    flex-grow: 1;
+.ty-overlay-top {
+    position: absolute;
+    top: 3%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 10;
+}
+
+.ty-overlay-top .ty-top-logo {
+    height: 75px;
+    margin-bottom: 2px;
+}
+
+.ty-overlay-top h2 {
+    color: #1a365d;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 800;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.ty-travels-row {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 1;
+    gap: 10px;
+    margin: 4px 0 8px 0;
 }
 
-.thank-you-header {
-    margin-bottom: 20px;
-}
-
-.thank-you-header .ty-logo {
-    width: 90px;
-    margin-bottom: 15px;
-}
-
-.thank-you-header h2 {
-    color: #1a365d;
-    font-size: 26px;
-    letter-spacing: 2px;
-    font-weight: 800;
-    margin: 0 0 5px 0;
-}
-
-.thank-you-header p {
+.ty-travels-row p {
     color: #c5a86a;
-    font-size: 16px;
-    letter-spacing: 8px;
-    margin: 0 0 10px 0;
-    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 7px;
+    margin: 0;
+    font-weight: 700;
 }
 
-.ty-tagline {
-    font-size: 14px;
-    color: #4a5568;
+.ty-line {
+    width: 50px;
+    height: 1px;
+    background-color: #c5a86a;
+}
+
+.ty-overlay-top .ty-tagline {
+    font-size: 13px;
+    color: #1a365d;
     font-style: italic;
     font-weight: 600;
 }
 
-.ty-title {
-    font-family: 'Brush Script MT', 'Great Vibes', 'Segoe Script', cursive;
-    font-size: 70px;
+.ty-overlay-middle {
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 10;
+}
+
+.ty-text {
+    font-size: 13px;
     color: #1a365d;
-    margin: 15px 0;
-    font-weight: normal;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-}
-
-.ty-title i {
-    color: #c5a86a;
-    font-size: 40px;
-    vertical-align: super;
-}
-
-.ty-msg {
-    font-size: 15px;
-    color: #2d3748;
-    max-width: 85%;
-    margin-bottom: 12px;
     line-height: 1.5;
     font-weight: 600;
-}
-
-.ty-features {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin: 20px 0;
-}
-
-.ty-feature {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #1a365d;
-}
-
-.ty-feature i {
-    font-size: 32px;
-    margin-bottom: 12px;
-}
-
-.ty-feature span {
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 1.3;
-    color: #2d3748;
-}
-
-.ty-closing-msg {
-    font-size: 16px;
-    color: #4a5568;
-    margin-bottom: 10px;
-    margin-top: 5px;
-}
-
-.ty-call-to-action {
-    font-size: 15px;
-    color: #e53e3e;
-    font-weight: 800;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
-}
-
-.ty-footer-section {
-    width: 100%;
-    position: relative;
-    z-index: 1;
-}
-
-.ty-dome {
-    background-color: #1a365d;
-    color: white;
-    padding: 20px 20px 15px;
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    margin-top: 10px;
-}
-
-.ty-dome p {
-    font-size: 13px;
-    margin: 0 0 5px 0;
-}
-
-.ty-signature-text {
-    font-family: 'Brush Script MT', 'Great Vibes', 'Segoe Script', cursive;
-    font-size: 40px;
-    color: #c5a86a;
-    font-weight: normal;
-    margin: 5px 0;
-}
-
-.ty-owner {
-    font-size: 12px;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-    color: #a0aec0;
-}
-
-.ty-dome h3 {
-    font-size: 16px;
-    letter-spacing: 1.5px;
-    font-weight: 700;
     margin: 0;
 }
 
-.ty-bottom-bar {
-    background-color: #0f1f38;
+.ty-heart-icon {
     color: #c5a86a;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    font-size: 13px;
-    align-items: center;
+    font-size: 14px;
+    margin: 12px 0;
+}
+
+.ty-overlay-bottom-phone,
+.ty-overlay-bottom-location {
+    position: absolute;
+    bottom: 2%;
+    color: #c5a86a;
+    font-size: 10px; /* Smaller font to fit the space */
     font-weight: 600;
+    letter-spacing: 0.5px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+    line-height: 1.2;
+}
+
+.ty-overlay-bottom-phone {
+    left: 17%;
+    bottom: 1.5%; /* Push down to avoid overlapping 'LIVE YOUR DREAM' */
+}
+
+.ty-overlay-bottom-location {
+    left: 55%; /* Push right to avoid overlapping the pin icon */
+    bottom: 2.2%; /* Vertically center with the pin icon */
 }
 
 /* Print Optimization for PDF Generation */
